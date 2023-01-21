@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            width: 300px;
+            height: 300px;
+            border-collapse: collapse;
+            margin: 0 auto;
+        }
+
+        td {
+            width: 100px;
+            height: 100px;
+            text-align: center;
+            vertical-align: middle;
+            border: 1px solid black;
+        }
+
+    </style>
+</head>
+<body>
+    <table id="board">
+        <tr>
+          <td id="cell-1"></td>
+          <td id="cell-2"></td>
+          <td id="cell-3"></td>
+        </tr>
+        <tr>
+          <td id="cell-4"></td>
+          <td id="cell-5"></td>
+          <td id="cell-6"></td>
+        </tr>
+        <tr>
+          <td id="cell-7"></td>
+          <td id="cell-8"></td>
+          <td id="cell-9"></td>
+        </tr>
+      </table>
+      <button id="reset-button" onclick="resetGame()">Reset</button>
+
+<script>
+    const cells = document.querySelectorAll("td");
+let currentPlayer = "X";
+
+cells.forEach((cell) => {
+  cell.addEventListener("click", handleClick);
+});
+
+function handleClick(e) {
+  // Check if the cell is empty
+  if (e.target.textContent === "") {
+    // Mark the cell with the current player's symbol
+    e.target.textContent = currentPlayer;
+
+    // Check if the game is over
+    checkForWin();
+
+    // Switch to the other player
+    currentPlayer = (currentPlayer === "X") ? "O" : "X";
+  }
+}
+
+function checkForWin() {
+  const winningCombinations = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+    [1, 4, 7],
+    [2, 5, 8],
+    [3, 6, 9],
+    [1, 5, 9],
+    [3, 5, 7]
+  ];
+
+  winningCombinations.forEach((combination) => {
+    const cell1 = document.getElementById(`cell-${combination[0]}`);
+    const cell2 = document.getElementById(`cell-${combination[1]}`);
+    const cell3 = document.getElementById(`cell-${combination[2]}`);
+
+    if (cell1.textContent === currentPlayer && cell2.textContent === currentPlayer && cell3.textContent === currentPlayer) {
+      alert(`Player ${currentPlayer} wins!`);
+    }
+  });
+}
+
+function checkForDraw() {
+  let draw = true;
+  cells.forEach((cell) => {
+    if (cell.textContent === "") {
+      draw = false;
+    }
+  });
+
+  if (draw) {
+    alert("It's a draw!");
+  }
+}
+
+function resetGame() {
+  cells.forEach((cell) => {
+    cell.textContent = "";
+  });
+
+  currentPlayer = "X";
+}
+
+
+</script>
+
+</body>
+</html>
